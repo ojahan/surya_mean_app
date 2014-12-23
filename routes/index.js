@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
+var path = require('path');
 
 //socket
 var app = express();
@@ -16,8 +18,11 @@ io.on('connection',function(socket){
 });
 
 /* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+router.get('/', function(req, res) {	
+	fs.readdirSync(path.join(__dirname,'../models')).forEach(function(filename){
+		console.log(filename);
+	});
+	res.render('index',{});
 });
 
 module.exports = router;

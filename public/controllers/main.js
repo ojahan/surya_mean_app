@@ -27,11 +27,11 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 				templateUrl:'/partials/yourTeam.html'
 			})
 			.when('/your-profile', {
-				controller: 'yourProfileController',
+				controller : 'yourProfileController',
 				templateUrl:'/partials/yourProfile.html'
 			})
-			.when('/messages',{
-				controller :'messagesController'
+			.when('/your-messages', {
+				controller :'messagesController',
 				templateUrl:'/partials/messages.html'
 			})
 			.otherwise({
@@ -60,6 +60,30 @@ app.controller('yourProfileController', ['$scope', function($scope){
 
 app.controller('messagesController', ['$scope', function($scope){
 	
+}]);
+
+app.controller('users', ['$scope','$location','$window', 'UserService', 'AuthenticationService', function($scope,$location,$window,UserService,AuthenticationService){
+	
+	$scope.login = function(username,password){
+		if (username !== undefined && password !== undefined) {
+			UserService.login(username,password).success(function(data){
+				AuthenticationService.isLogged = true;
+				$window.sessionStorage.token = data.token;
+				$location.path('/');
+			}).error(function(status,data){
+				AuthenticationService.isLogged = false;
+				console.log(status);
+				console.log(data);
+			});
+		};
+	}
+
+	$scope.logout = function(){
+		AuthenticationService.isLogged = false;
+		delete $window.sessionStorage.token;
+		$location.path('/login');
+	}
+
 }]);
 
 app.controller('topMenu', ['$scope', function($scope){
