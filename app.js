@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,11 +20,22 @@ app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var modelPath = path.join(__dirname,'models');   
+fs.readdirSync(modelPath).forEach(function(filename){
+    if (filename.indexOf('.js')) require(modelPath+'/'+filename);
+});
 
+mongoose.connect('mongodb://localhost/admin', function(error, respond){
+    if(error){
+        console.log('Database error..!');
+    }else{
+        console.log('Database connection success');
+    }
+});
 
 app.use('/', routes);
 app.use('/users', users);
