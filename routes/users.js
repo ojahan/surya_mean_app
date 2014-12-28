@@ -3,22 +3,21 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/user');
 
-router.get('/create', function(request, respond){
-	
+router.get('/create', function(request, respond){	
 	var person = new User({
-		fullname: 'king',
-		username: 'king',
-		email: 'surya.ramshere@gmail.com',
-		password: 'test',
-		role: 'admin',
+		fullname: "testing",
+		username: "ttest",
+		email: "dre@gmail.com",
+		password: 'test',		
+		role: 'Admin',
 		phone: 085723002470
 	});
 
 	person.save(function(err){
 		if (err) {
-			respond.send('User has been created');			
+			respond.send(err);
 		}else{
-			respond.send('Error insert database');
+			respond.send('User has been created');			
 		}
 	});
 });
@@ -32,5 +31,19 @@ router.get('/all', function(request,respond){
 		}
 	});
 });
+
+router.put('/update/:id', function(request,respond){
+	var Person = User.findById(request.params.id, function(err, person){
+		person.fullname = request.body.fullname;
+		person.username = request.body.username;
+		person.email = request.body.email;
+		person.password = request.body.password;
+		person.phone = request.body.phone;
+	});
+});
+
+router.delete('/delete/:id', function(request,respond){
+
+})
 
 module.exports = router;

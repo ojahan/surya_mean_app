@@ -1,11 +1,12 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var mongoose = require('mongoose');
+var express = require('express'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    fs = require('fs'),
+    mongoose = require('mongoose'),
+    errorhandler = require('errorhandler');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,7 +30,7 @@ fs.readdirSync(modelPath).forEach(function(filename){
     if (filename.indexOf('.js')) require(modelPath+'/'+filename);
 });
 
-mongoose.connect('mongodb://localhost/admin', function(error, respond){
+mongoose.connect('mongodb://localhost/socket', function(error, respond){
     if(error){
         console.log('Database error..!');
     }else{
@@ -52,6 +53,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
+    app.use(errorhandler());
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {

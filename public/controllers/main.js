@@ -4,7 +4,7 @@
 *
 * Description
 */
-var app = angular.module('myApp', ['ngRoute']);
+var app = angular.module('myApp', ['ngRoute','ngTouch']);
 
 app.config(['$routeProvider','$locationProvider','$httpProvider',
 	function($routeProvider,$locationProvider,$httpProvider) {
@@ -34,6 +34,10 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 				controller :'messagesController',
 				templateUrl:'/partials/messages.html'
 			})
+			.when('/register', {
+				controller :'registerController',
+				templateUrl:'/partials/register.html'
+			})
 			.otherwise({
 				redirectTo:'/'
 			});	
@@ -59,6 +63,25 @@ app.controller('yourProfileController', ['$scope', function($scope){
 }]);
 
 app.controller('messagesController', ['$scope', function($scope){
+	
+}]);
+
+app.controller('registerController', ['$scope','$rootScope', function($scope,$rootScope){
+	var showCounter = true;
+	var showForm = false;
+	$scope.createInstanceRegister = function(){
+		$scope.members = [];	
+		for (var i = 0; i < $scope.counter; i++) {
+			$scope.members.push({ id: i });
+		};
+		console.log($scope.members);
+		$scope.showForm = true;
+		$scope.showCounter = false;
+	};
+
+	$scope.registerMyTeam = function(){
+		
+	}
 	
 }]);
 
