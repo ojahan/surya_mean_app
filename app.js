@@ -6,7 +6,11 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs'),
     mongoose = require('mongoose'),
-    errorhandler = require('errorhandler');
+    errorhandler = require('errorhandler'),
+    passport = require('passport'),
+    flash = require('connect-flash'),
+    session = require('express-session'),
+    configDB = require('./config/database');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -19,18 +23,20 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(session({ secret: 'iloveyou',
+                resave: false,
+                saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var modelPath = path.join(__dirname,'models');   
-fs.readdirSync(modelPath).forEach(function(filename){
-    if (filename.indexOf('.js')) require(modelPath+'/'+filename);
-});
-
-mongoose.connect('mongodb://localhost/socket', function(error, respond){
+mongoose.connect(configDB.url, function(error, respond){
     if(error){
         console.log('Database error..!');
     }else{
@@ -72,6 +78,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
