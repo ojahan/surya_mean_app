@@ -25,7 +25,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body ng-app="loginModule">
 
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
@@ -34,19 +34,19 @@
 	  <div id="login-page">
 	  	<div class="container">
 	  	
-		      <form class="form-login" action="index.html">
+		      <form class="form-login" ng-controller="loginController">
 		        <h2 class="form-login-heading">sign in now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="User ID" autofocus>
+		            <input type="text" class="form-control" placeholder="User ID" ng-model="username" autofocus>
 		            <br>
-		            <input type="password" class="form-control" placeholder="Password">
+		            <input type="password" class="form-control" ng-model="password" placeholder="Password">
 		            <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		
 		                </span>
 		            </label>
-		            <button class="btn btn-theme btn-block" href="index.html" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
+		            <button class="btn btn-theme btn-block" ng-click="loginProcess()"><i class="fa fa-lock" ng-click="loginProcess"></i> SIGN IN</button>
 		            <hr>
 		            
 		            <div class="login-social-link centered">
@@ -59,6 +59,10 @@
 		                <a class="" href="#">
 		                    Create an account
 		                </a>
+		            </div>
+		            <div>
+		            	<span>{{status}}</span>
+		            	<span>{{data}}</span>
 		            </div>
 		
 		        </div>
@@ -97,6 +101,10 @@
     <!--BACKSTRETCH-->
     <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
     <script type="text/javascript" src="/assets/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="/javascripts/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/angular-touch.js"></script>
+    <script type="text/javascript" src="/javascripts/angular-routes.min.js"></script>
+    <script type="text/javascript" src="/controllers/login.js"></script>
     <script>
         $.backstretch("/assets/img/login-bg.jpg", {speed: 500});
     </script>

@@ -4,15 +4,14 @@ var mongoose = require('mongoose');
 var User = require('../models/user');
 var passport = require('passport'),
     flash = require('connect-flash'),
-    session = require('express-session');
+    session = require('express-session'),
+    isLoggedIn = require('../config/auth').isLoggedIn,
+    secretKey = require('../config/auth').secretKey,
+    initializeAuth = require('../config/auth').initialize;
 
-router.use(passport.initialize());
-router.use(passport.session());
-router.use(flash());
-router.use(session({ secret: 'iloveu', resave: false,
-                saveUninitialized: true }));
+initializeAuth(router, passport, flash, session, secretKey.key);
 
-router.get('/create', function(request, respond){	
+router.get('/create', isLoggedIn, function(request, respond){	
 	var person = new User({
 		fullname: "testing",
 		username: "ttest",
@@ -21,7 +20,6 @@ router.get('/create', function(request, respond){
 		role: 'Admin',
 		phone: 085723002470
 	});
-
 	person.save(function(err){
 		if (err) {
 			respond.send(err);
@@ -31,7 +29,7 @@ router.get('/create', function(request, respond){
 	});
 });
 
-router.get('/all', isLoggedIn, function(request,respond){
+router.get('/all', function(request,respond){
 	User.find(function(err, data){
 		if (err) {
 			respond.status(500).send('Error get data');			
@@ -53,13 +51,6 @@ router.put('/update/:id', function(request,respond){
 
 router.get('/', function(request, respond){
 	respond.send('Not Authenticated');
-})
-
-function isLoggedIn(request,respond,next){
-	if (request.isAuthenticated()) {
-		next();
-	};
-	respond.redirect('/')
-};
+});
 
 module.exports = router;

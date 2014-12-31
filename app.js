@@ -7,14 +7,10 @@ var express = require('express'),
     fs = require('fs'),
     mongoose = require('mongoose'),
     errorhandler = require('errorhandler'),
-    passport = require('passport'),
-    flash = require('connect-flash'),
-    session = require('express-session'),
     configDB = require('./config/database');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -23,13 +19,6 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(session({ secret: 'iloveyou',
-                resave: false,
-                saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,6 +32,7 @@ mongoose.connect(configDB.url, function(error, respond){
         console.log('Database connection success');
     }
 });
+
 
 app.use('/', routes);
 app.use('/users', users);
