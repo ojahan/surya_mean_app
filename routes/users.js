@@ -2,19 +2,11 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/user');
-var passport = require('passport'),
-    flash = require('connect-flash'),
-    session = require('express-session'),
-    isLoggedIn = require('../config/auth').isLoggedIn,
-    secretKey = require('../config/auth').secretKey,
-    initializeAuth = require('../config/auth').initialize;
 
-initializeAuth(router, passport, flash, session, secretKey.key);
-
-router.get('/create', isLoggedIn, function(request, respond){	
+router.get('/create', function(request, respond){	
 	var person = new User({
-		fullname: "testing",
-		username: "ttest",
+		fullname: "admin",
+		username: "admin",
 		email: "dre@gmail.com",
 		password: 'test',		
 		role: 'Admin',

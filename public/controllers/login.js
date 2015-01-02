@@ -7,11 +7,8 @@ var app = angular.module('loginModule', ['ngRoute','ngTouch']);
 
 app.controller('loginController', ['$scope','$rootScope','$http', function($scope,$rootScope,$http){
 	
-
 	$scope.loginProcess = function(){
-		var username = $scope.username;
-		var password = $scope.password;
-		$http.post('/login', {username: username, password:password}).
+		$http.post('/login', {username: $scope.username, password: $scope.password}).
 			success(function(data,status){
 				console.log(data);
 				$scope.data = data;

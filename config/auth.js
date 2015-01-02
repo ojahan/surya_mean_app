@@ -1,17 +1,30 @@
-module.exports.isLoggedIn = function isLoggedIn(request,respond,next){
-	if (request.isAuthenticated()) {
-		next();
-	};
-	respond.redirect('/');
-};
+var passport = require('passport'),
+	LocalStrategy = require('passport-local').Strategy,
+	User = require('../models/user');
 
-module.exports.secretKey = {
-	key : 'thisismywebsite'
-};
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.comparePassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
-module.exports.initialize = function initializeAuth(router, passport, flash, session, secretKey){
-	router.use(passport.initialize());
-	router.use(passport.session());
-	router.use(flash());
-	router.use(session({ secret: secretKey, resave: false, saveUninitialized: true }));	
-}
+passport.serializeUser(function(user,done){
+	done(null,user.id);
+});
+
+passport.deserializeUser(function(id,done){
+	User.findById(id,function(err,user){
+		done(err,user);
+	});
+});
+
+module.exports = passport;
