@@ -9,7 +9,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.comparePassword(password)) {
+      if (!user.validPassword(password)) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -27,4 +27,12 @@ passport.deserializeUser(function(id,done){
 	});
 });
 
-module.exports = passport;
+module.exports.passport = passport;
+
+module.exports.isLoggedIn = function(req,res,next){
+  if (req.isAuthenticated()) {
+    next()
+  }else{
+    res.status(401).send('Request is not authenticated');
+  }
+}

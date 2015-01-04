@@ -3,10 +3,11 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	User = require('../models/user'),
 	flash = require('connect-flash'),
-	passport = require('../config/auth'),
+	passport = require('../config/auth').passport,	
 	session = require('express-session'),
 	bodyParser = require('body-parser'),
-	cookieParser = require('cookie-parser');
+	cookieParser = require('cookie-parser'),
+	isLoggedIn = require('../config/auth').isLoggedIn;
 
 router.use(cookieParser('surya'));
 router.use(session({secret:'surya', resave: false, saveUninitialized: true}));
@@ -34,27 +35,19 @@ router.post('/login', function(req,res,next){
 		if (!user) {
 			return res.send(info.message);
 		};
-		res.logIn(user, function(err){
+		req.login(user, function(err){
 			if (err) { return next(err) };
 			return res.send(user);
 		});
 	})(req,res,next);
 });
 
-router.get('/test', function(req,res){
-	res.send('Goooooo');
+router.get('/notauth', function(req,res){
+	res.send({message: 'Allowed'});
 });
 
-router.get('/userSuccess', function(req,res){
-	if (req.session.passport.user === undefined) {
-		res.redirect('/login');
-	}else{
-		res.send(req.user);
-	};
-})
-
-router.get('/userFailure', function(req, res){
-	res.send({message: 'Failure'});
+router.get('/needauth', isLoggedIn, function(req,res){
+	res.send({message:'Not Need Auth'});
 });
 
 module.exports = router;

@@ -56,4 +56,12 @@ UserSchema.methods.comparePassword = function(password){
 	return match;
 };
 
+UserSchema.methods.validPassword = function(password){
+	if (this.password == password) {
+		return true;
+	}else{
+		return false;
+	};
+};
+
 module.exports = mongoose.model('User', UserSchema);
