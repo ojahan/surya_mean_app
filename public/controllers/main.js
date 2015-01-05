@@ -80,13 +80,12 @@ app.controller('registerController', ['$scope','$rootScope', function($scope,$ro
 	};
 
 	$scope.registerMyTeam = function(){
-		
+				
 	}
 	
 }]);
 
-app.controller('users', ['$scope','$location','$window', 'UserService', 'AuthenticationService', function($scope,$location,$window,UserService,AuthenticationService){
-	
+app.controller('users', ['$scope','$location','$window', 'UserService', 'AuthenticationService', function($scope,$location,$window,UserService,AuthenticationService){	
 	$scope.login = function(username,password){
 		if (username !== undefined && password !== undefined) {
 			UserService.login(username,password).success(function(data){
