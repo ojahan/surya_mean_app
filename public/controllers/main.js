@@ -69,19 +69,31 @@ app.controller('messagesController', ['$scope', function($scope){
 app.controller('registerController', ['$scope','$rootScope', function($scope,$rootScope){
 	var showCounter = true;
 	var showForm = false;
+	var users = [];
+
 	$scope.createInstanceRegister = function(){
-		$scope.members = [];	
+		$scope.members = [];		
 		for (var i = 0; i < $scope.counter; i++) {
-			$scope.members.push({ id: i });
+			$scope.members.push(i);
 		};
 		console.log($scope.members);
 		$scope.showForm = true;
-		$scope.showCounter = false;
+		$scope.showCounter = false;		
+		$scope.name = [];
+		$scope.email = [];
+		$scope.team = {
+			team_name = $scope.team_name,
+			team_organization = $scope.team_organization,
+			team_regional = $scope.team_regional,			
+		};
 	};
 
 	$scope.registerMyTeam = function(){
-				
-	}
+		for (var j = 0; j < $scope.counter; j++) {
+			users.push({name: $scope.name[j], email: $scope.email[j] } );
+		};
+		console.log(users);
+	};
 	
 }]);
 
