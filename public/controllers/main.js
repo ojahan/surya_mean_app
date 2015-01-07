@@ -66,7 +66,7 @@ app.controller('messagesController', ['$scope', function($scope){
 	
 }]);
 
-app.controller('registerController', ['$scope','$rootScope', function($scope,$rootScope){
+app.controller('registerController', ['$scope','$rootScope', '$http', function($scope,$rootScope,$http){
 	var showCounter = true;
 	var showForm = false;
 	var users = [];
@@ -82,9 +82,9 @@ app.controller('registerController', ['$scope','$rootScope', function($scope,$ro
 		$scope.name = [];
 		$scope.email = [];
 		$scope.team = {
-			team_name = $scope.team_name,
-			team_organization = $scope.team_organization,
-			team_regional = $scope.team_regional,			
+			team_name : $scope.team_name,
+			team_organization : $scope.team_organization,
+			team_regional : $scope.team_regional,			
 		};
 	};
 
@@ -93,6 +93,13 @@ app.controller('registerController', ['$scope','$rootScope', function($scope,$ro
 			users.push({name: $scope.name[j], email: $scope.email[j] } );
 		};
 		console.log(users);
+		$http.post('/users/save_team', {team: $scope.team, members: users})
+			.success(function(data,status){
+				console.log('sent');
+			})
+			.error(function(data,status){
+				console.log('error');
+			});
 	};
 	
 }]);

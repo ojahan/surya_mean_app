@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/user');
+var Team = require('../models/team');
 
 router.get('/create', function(request, respond){	
 	var person = new User({
@@ -43,6 +44,10 @@ router.put('/update/:id', function(request,respond){
 
 router.get('/', function(request, respond){
 	respond.send('Not Authenticated');
+});
+
+router.post('/save_team', function(request, respond){
+	respond.send({ team:request.body.team, members:request.body.members });
 });
 
 module.exports = router;

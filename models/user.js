@@ -29,6 +29,10 @@ var UserSchema = new Schema({
 		type: Number,
 		require: true
 	},
+	team : {
+		type: Number,
+		ref: 'Team'
+	},
 	created_at: {
 		type: Date,
 		default: Date.now
