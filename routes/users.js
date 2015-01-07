@@ -48,6 +48,18 @@ router.get('/', function(request, respond){
 
 router.post('/save_team', function(request, respond){
 	respond.send({ team:request.body.team, members:request.body.members });
+	var group = new Team(request.body.team);
+	group.save(function(err){
+		if (err) return err ;
+		var users = new User({
+			fullname = request.body.fullname;
+			username = request.body.username;
+			email = request.body.email;
+			password = request.body.password;
+			phone = request.body.phone;	
+		});
+
+	});
 });
 
 module.exports = router;
