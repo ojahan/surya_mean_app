@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var TeamSchema = new Schema({
-	_id : {
+	_id : { 
 		type: Number,
-		require: true
+		require: true	
 	},
 	team_name: {
 		type: String,
@@ -24,4 +24,4 @@ var TeamSchema = new Schema({
 	}]
 });
 
-module.exports = mongoose.model('Team', TeamSchema );
+module.exports = mongoose.model('Team',TeamSchema);

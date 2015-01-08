@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = require('../models/user');
 var Team = require('../models/team');
+var errorHandler = require('errorhandler');
 
 router.get('/create', function(request, respond){	
 	var person = new User({
@@ -47,19 +48,31 @@ router.get('/', function(request, respond){
 });
 
 router.post('/save_team', function(request, respond){
-	respond.send({ team:request.body.team, members:request.body.members });
-	var group = new Team(request.body.team);
-	group.save(function(err){
-		if (err) return err ;
-		var users = new User({
-			fullname = request.body.fullname;
-			username = request.body.username;
-			email = request.body.email;
-			password = request.body.password;
-			phone = request.body.phone;	
-		});
+	var member = request.body.members,
+		team = request.body.team,
+		id = new Date();
 
+	var group = new Team({_id: id.getTime(), 
+							team_name: team.team_name,
+							team_organization: team.team_organization,
+							team_regional: team.team_regional });
+	var person = undefined;
+	group.save(function(err){
+		if (err) return errorHandler(err) ;
+		for (var i = 0; i < member.length; i++) {
+			person = new User({
+				username: member[i].name,
+				email: member[i].email,
+				team: group._id
+			});
+			person.save(function(err){
+				if (err) { return errorHandler(err) };
+			});
+		};
+		console.log(member);
+		console.log(request.body.team);
 	});
+	respond.send('Data team saved');
 });
 
 module.exports = router;

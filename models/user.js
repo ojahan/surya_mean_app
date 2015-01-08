@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
 	fullname: {
 		type: String,
-		require: true
+		require: false
 	},
 	username: {
 		type: String,
@@ -18,16 +18,16 @@ var UserSchema = new Schema({
 	},
 	password: {
 		type: String,
-		require: true
+		require: false
 	},
 	role: {
 		type: String,
 		enum: ['Admin','Coach','Player'],
-		require: true
+		require: false
 	},
 	phone: {
 		type: Number,
-		require: true
+		require: false
 	},
 	team : {
 		type: Number,

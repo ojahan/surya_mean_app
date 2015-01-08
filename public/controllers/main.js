@@ -8,7 +8,7 @@ var app = angular.module('myApp', ['ngRoute','ngTouch']);
 
 app.config(['$routeProvider','$locationProvider','$httpProvider',
 	function($routeProvider,$locationProvider,$httpProvider) {
-		$locationProvider.html5Mode(true);
+		$locationProvider.html5Mode(true).hashPrefix('!');
 		$routeProvider
 			.when('/',{
 				controller :'mainController',
@@ -92,6 +92,7 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 		for (var j = 0; j < $scope.counter; j++) {
 			users.push({name: $scope.name[j], email: $scope.email[j] } );
 		};
+		console.log($scope.team);
 		console.log(users);
 		$http.post('/users/save_team', {team: $scope.team, members: users})
 			.success(function(data,status){
@@ -99,7 +100,7 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 			})
 			.error(function(data,status){
 				console.log('error');
-			});
+			});		
 	};
 	
 }]);
