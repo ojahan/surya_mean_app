@@ -56,16 +56,20 @@ router.post('/save_team', function(request, respond){
 							team_name: team.team_name,
 							team_organization: team.team_organization,
 							team_regional: team.team_regional });
-	var person = undefined;
+	var person = [];
 	group.save(function(err){
 		if (err) return errorHandler(err) ;
 		for (var i = 0; i < member.length; i++) {
-			person = new User({
+			person[i] = new User({
+				fullname :'',
 				username: member[i].name,
 				email: member[i].email,
+				password: '',
+				role: 'Player',
+				phone: '',
 				team: group._id
 			});
-			person.save(function(err){
+			person[i].save(function(err){
 				if (err) { return errorHandler(err) };
 			});
 		};
@@ -73,6 +77,12 @@ router.post('/save_team', function(request, respond){
 		console.log(request.body.team);
 	});
 	respond.send('Data team saved');
+});
+
+router.get("/populate", function(request,respond){
+	User.find({username: 'asda'}).populate('team').exec(function(err,user){
+		respond.send(user);
+	});
 });
 
 module.exports = router;

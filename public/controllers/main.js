@@ -70,6 +70,8 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 	var showForm = false;
 	var users = [];
 
+	$scope.team = { team_name: undefined, team_organization: undefined, team_regional: undefined};
+
 	$scope.createInstanceRegister = function(){
 		$scope.members = [];		
 		for (var i = 0; i < $scope.counter; i++) {
@@ -80,10 +82,11 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 		$scope.showCounter = false;		
 		$scope.name = [];
 		$scope.email = [];
-		$scope.team = {
-			team_name : $scope.team_name,
-			team_organization : $scope.team_organization,
-			team_regional : $scope.team_regional,			
+	};
+
+	$scope.checkValidation = function(element){
+		if (element.$valid) {
+			console.log("error");
 		};
 	};
 

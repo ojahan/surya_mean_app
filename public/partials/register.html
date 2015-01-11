@@ -3,26 +3,27 @@
         <div class="row mt" ng-show="showCounter" ng-init="showCounter = true">
             <div class="col-lg-12">
                 <div class="form-panel">
-                    <form class="form-horizontal style-form" method="get">
+                    <form class="form-horizontal style-form" name="teamForm" novalidate>
                     <h4 class="mb"><i class="fa fa-angle-right"></i>Team Information</h4>
-                        <div class="form-group">
+                        <div class="form-group" ng-class="teamForm.teamName.$dirty && teamForm.teamName.$error.required?'has-error':'has-success'">
                             <label class="col-sm-2 col-sm-2 control-label">Team Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" ng-model="team_name">
-                                <span class="help-block">Name of team</span>
+                                <input type="text" class="form-control" name="teamName" ng-model="team.team_name" required ng-minlength="3" ng-maxlength="10">
+                                <span class="help-block">Ex: Team Dragon Football</span>
+                                <span class="help-block" ng-show="teamForm.teamName.$dirty && teamForm.teamName.$error.required">Tell us your team name</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Organization</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" ng-model="team_organization">
+                                <input type="text" class="form-control" name="teamOrganization" ng-model="team.team_organization" required>
                                 <span class="help-block">Ex: Runner Hight School, Goverment POST Office, etc</span>
                             </div>                            
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Regional / Place</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" ng-model="team_regional">
+                                <input type="text" class="form-control" ng-model="team.team_regional" name="teamRegional" required>
                                 <span class="help-block">Type some place</span>
                             </div>                            
                         </div>                        
