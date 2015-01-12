@@ -71,6 +71,7 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 	var users = [];
 
 	$scope.team = { team_name: undefined, team_organization: undefined, team_regional: undefined};
+	$scope.cities = ['bandung','jakarta','bogor','surabaya'];
 
 	$scope.createInstanceRegister = function(){
 		$scope.members = [];		
@@ -144,4 +145,25 @@ app.controller('topMenu', ['$scope', function($scope){
 app.controller('sideBar', ['$scope', function($scope){
 	$scope.avatar = '/images/ui-zac.jpg';
 	$scope.username = 'Surya Surakhman';
+}]);
+
+app.directive('autocompleteCity', ['$scope', function(){
+	// Runs during compile
+	return {
+		// name: 'autocompleteCity',
+		// priority: 1,
+		// terminal: true,
+		// scope: {}, // {} = isolate, true = child, false/undefined = no change
+		// controller: function($scope, $element, $attrs, $transclude) {},
+		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+		// restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+		// template: '',
+		// templateUrl: '',
+		// replace: true,
+		// transclude: true,
+		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+		link: function($scope, iElm, iAttrs, controller) {
+			
+		}
+	};
 }]);
