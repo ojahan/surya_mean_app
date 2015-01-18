@@ -1,0 +1,8 @@
+<div class="form-group" ng-class="formname.name.$dirty && formname.name.$error.required?'has-error':''">
+    <label class="col-sm-2 col-sm-2 control-label">{{ label }}</label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control" name="name" ng-model="model" required ng-minlength="3" ng-maxlength="10">
+        <span class="help-block">{{help}}</span>
+        <span class="help-block" ng-show="formname.name.$dirty && formname.name.$error.required">{{alert}}</span>
+    </div>
+</div>

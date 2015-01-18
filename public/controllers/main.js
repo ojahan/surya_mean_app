@@ -70,7 +70,7 @@ app.controller('registerController', ['$scope','$rootScope', '$http', function($
 	var showForm = false;
 	var users = [];
 
-	$scope.team = { team_name: undefined, team_organization: undefined, team_regional: undefined};
+	$scope.team = { team_name: undefined, team_organization: undefined, team_regional: undefined, test: undefined};
 	$scope.cities = ['bandung','jakarta','bogor','surabaya'];
 
 	$scope.createInstanceRegister = function(){
@@ -147,23 +147,41 @@ app.controller('sideBar', ['$scope', function($scope){
 	$scope.username = 'Surya Surakhman';
 }]);
 
-app.directive('autocompleteCity', ['$scope', function(){
+app.directive('inputForm', function(){
+	return {
+		scope: {
+			label: '@',
+			alert: '@',
+			help: '@',			
+			formname: '=',
+			model: '=',
+			name: '='			
+		},
+		restrict: 'E',
+		templateUrl: '/directives/formRegister.html'
+	}
+});
+
+app.directive('autocompletePlace', ['$scope','$http', function($scope,$http){
 	// Runs during compile
 	return {
-		// name: 'autocompleteCity',
-		// priority: 1,
-		// terminal: true,
-		// scope: {}, // {} = isolate, true = child, false/undefined = no change
-		// controller: function($scope, $element, $attrs, $transclude) {},
-		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-		// restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
-		// template: '',
-		// templateUrl: '',
+		scope: {
+			label: '@',
+			alert: '@',
+			help: '@',			
+			formname: '=',
+			model: '=',
+			name: '='
+		}, // {} = isolate, true = child, false/undefined = no change
+		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+		templateUrl: '',
 		// replace: true,
-		// transclude: true,
+		transclude: true,
 		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
 		link: function($scope, iElm, iAttrs, controller) {
-			
+			scope.$watch('model',function(scope){
+				
+			});
 		}
 	};
 }]);
