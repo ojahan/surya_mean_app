@@ -180,7 +180,7 @@ app.directive('autocompletePlace', ['$scope','$http', function($scope,$http){
 		// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
 		link: function($scope, iElm, iAttrs, controller) {
 			scope.$watch('model',function(scope){
-				
+				var cities = $http
 			});
 		}
 	};
