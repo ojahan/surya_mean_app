@@ -1,6 +1,25 @@
 module.exports = function(grunt) {
-
     grunt.initConfig({
+	pkg: grunt.file.readJSON('package.json'),
+    	concat: {
+    		options: {
+    			separator: ';'
+    		},
+    		dist: {
+    			src: ['public/assets/controllers/*.js'],
+    			dest: 'public/assets/javascripts/script.js'
+    		}
+    	},
+    	uglify:{
+    		options: {
+    			banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %>*/\n'
+    		},
+    		dist:{
+    			files: {
+    				'script.min.js': ['<%= concat.dist.dest %>']
+    			}
+    		}
+    	},
         express: {
             options: {
                 cmd: process.argv[0],
@@ -46,9 +65,11 @@ module.exports = function(grunt) {
         }
     });
 
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-watch');
     
-    grunt.registerTask('default', [ 'express:dev', 'watch' ]);
+    grunt.registerTask('default', [ 'concat','uglify','express:dev', 'watch' ]);
 
 };

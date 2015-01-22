@@ -37,6 +37,10 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 				controller :'registerController',
 				templateUrl:'/partials/register.html'
 			})
+			.when('setting-account', {
+				controller: 'accountSettingController',
+				templateUrl: '/partials/setPassword.html'
+			})
 			.otherwise({
 				redirectTo:'/'
 			});	
