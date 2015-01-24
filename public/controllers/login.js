@@ -3,21 +3,79 @@
 *
 * Description: Login User
 */
-var app = angular.module('loginModule', ['ngRoute','ngTouch']);
+var app = angular.module('authModule', ['ngRoute','ngTouch']);
 
-app.controller('loginController', ['$scope','$rootScope','$http', function($scope,$rootScope,$http){
+app.controller('loginController', ['$scope', 'USER_ROLES', 'AuthService', function($scope,USER_ROLES,AuthService){
 	
-	$scope.loginProcess = function(){
-		$http.post('/login', {username: $scope.username, password: $scope.password}).
-			success(function(data,status){
-				console.log(data);
-				$scope.data = data;
-				$scope.status = status;
-			}).
-			error(function(data,status){
-				$scope.data = data || 'Request Failed';
-				$scope.status = status;
-			});
+	$scope.credential = {username: undefined, password: undefined};
+
+	$scope.currentUser = null;
+	$scope.userRoles = USER_ROLES;
+	$scope.isAuthorized = AuthService.isAuthorized;
+
+	$scope.setCurrentUser = function(user){
+		$scope.currentUser = user;
+	}
+
+	$scope.loginProcess = function(credential){
+		authService.login(credential);
 	};	
+}]);
+
+app.constant('AUTH_EVENT', {
+	loginSuccess :'auth-login-success',
+	loginFailed :'auth-login-failed',
+	logoutSuccess :'auth-logout-success',
+	sessionTimeout :'auth-session-timeout',
+	notAuthenticated :'auth-not-authenticated',
+	notAuthorized :'auth-not-authorized'
+});
+
+app.constant('USER_ROLES', {
+	all: '*',
+	admin :'admin',
+	coach :'coach',
+	player :'player'
+});
+
+app.factory('AuthService', ['$http','Session', function($http,Session){
+	var authService = {};
+
+	authService.login = function(credential){
+		return $http.post('/login',credential)
+				.then(function(data, status){
+					Session.create(data);
+					return data;
+				})
+				.error(function(data,status){
+					return 'Login Incorrect';
+				});
+	};
+
+	authService.isAuthenticated = function(){
+		return !!Session.userid;
+	};
+
+	authService.isAuthorized = function(authorizedRoles){
+		if (!angular.isArray(authorizedRoles)) {
+			authorizedRoles = [authorizedRoles];
+		};		
+		return (authService.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+	};
+
+	return authService;
+}]);
+
+app.service('Session', ['$scope', function($scope){
+	this.create = function(sessionId, userId, userRole){
+		this.id = sessionId;
+		this.userId = userId;
+		this.userRole = userRole;
+	};
+	this.destroy = function(){
+		this.id = null;
+		this.userId = null;
+		this.userRole = null;	
+	};
 }]);
 

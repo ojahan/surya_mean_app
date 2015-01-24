@@ -25,7 +25,7 @@
     <![endif]-->
   </head>
 
-  <body ng-app="loginModule">
+  <body ng-app="authModule">
 
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
@@ -37,16 +37,16 @@
 		      <form class="form-login" ng-controller="loginController">
 		        <h2 class="form-login-heading">sign in now</h2>
 		        <div class="login-wrap">
-		            <input type="text" class="form-control" placeholder="User ID" ng-model="username" autofocus>
+		            <input type="text" class="form-control" placeholder="Username" ng-model="credential.username" autofocus>
 		            <br>
-		            <input type="password" class="form-control" ng-model="password" placeholder="Password">
+		            <input type="password" class="form-control" placeholder="Password" ng-model="credential.password">
 		            <label class="checkbox">
 		                <span class="pull-right">
 		                    <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
 		
 		                </span>
 		            </label>
-		            <button class="btn btn-theme btn-block" ng-click="loginProcess()"><i class="fa fa-lock" ng-click="loginProcess"></i> SIGN IN</button>
+		            <button class="btn btn-theme btn-block" ng-click="loginProcess(credential)"><i class="fa fa-lock" ng-click="loginProcess"></i> SIGN IN</button>
 		            <hr>
 		            
 		            <div class="login-social-link centered">

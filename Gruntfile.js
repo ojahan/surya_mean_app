@@ -6,8 +6,8 @@ module.exports = function(grunt) {
     			separator: ';'
     		},
     		dist: {
-    			src: ['public/assets/controllers/*.js'],
-    			dest: 'public/assets/javascripts/script.js'
+    			src: ['public/controllers/*.js'],
+    			dest: 'public/javascripts/script.js'
     		}
     	},
     	uglify:{
@@ -16,7 +16,7 @@ module.exports = function(grunt) {
     		},
     		dist:{
     			files: {
-    				'script.min.js': ['<%= concat.dist.dest %>']
+    				'public/javascripts/script.min.js': ['<%= concat.dist.dest %>']
     			}
     		}
     	},
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
                 livereload: true
             },
             express: {
-                files: ['**/*.js'],
+                files: ['**/*.js','public/controllers/*.js','public/services/*.js','public/directives/*.js'],
                 tasks: ['express:dev'],
                 options: {
                     spawn:false

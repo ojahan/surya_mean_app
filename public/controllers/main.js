@@ -4,14 +4,14 @@
 *
 * Description
 */
-var app = angular.module('myApp', ['ngRoute','ngTouch']);
+var app = angular.module('myApp', ['ngRoute','ngTouch','authModule']);
 
 app.config(['$routeProvider','$locationProvider','$httpProvider',
 	function($routeProvider,$locationProvider,$httpProvider) {		
-		$routeProvider
-			.when('/',{
+		$routeProvider			
+			.when('/dashboard',{
 				controller :'mainController',
-				templateUrl:'/partials/dashboard.html'
+				templateUrl:'/partials/dashboard.html',
 			})
 			.when('/training-schedule', {
 				controller :'trainingScheduleController',
@@ -37,7 +37,7 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 				controller :'registerController',
 				templateUrl:'/partials/register.html'
 			})
-			.when('setting-account', {
+			.when('/setting-account', {
 				controller: 'accountSettingController',
 				templateUrl: '/partials/setPassword.html'
 			})
@@ -46,8 +46,13 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 			});	
 }]);
 
-app.controller('mainController', ['$scope', function($scope){	
+app.controller('mainController', ['$scope', 'USER_ROLES', function($scope,role){
+	$scope.test = role.player;	
 }]);
+
+// app.controller('mainController', ['$scope', function($scope){
+// 	$scope.test = 'Test';	
+// }]);
 
 app.controller('trainingScheduleController', ['$scope', function($scope){
 	
@@ -68,6 +73,10 @@ app.controller('yourProfileController', ['$scope', function($scope){
 app.controller('messagesController', ['$scope', function($scope){
 	
 }]);
+
+app.controller('accountSettingController', ['$scope', function($scope){
+	
+}])
 
 app.controller('registerController', ['$scope','$rootScope', '$http', function($scope,$rootScope,$http){
 	var showCounter = true;

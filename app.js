@@ -9,7 +9,7 @@ var express = require('express'),
     errorhandler = require('errorhandler'),
     configDB = require('./config/database');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 
@@ -35,7 +35,7 @@ mongoose.connect(configDB.url, function(error, respond){
 });
 
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

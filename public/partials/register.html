@@ -23,7 +23,7 @@
                             <div class="col-sm-10">
                                 <input type="number" class="form-control" ng-model="counter" name="counter" required>
                                 <span class="help-block">Maximum 20 member</span>
-                                <span class="help-block" ng-show="teamForm.counter.$dirty && teamForm.counter.$valid ">Entry number of your team</span>
+                                <span class="help-block" ng-show="teamForm.counter.$dirty && !teamForm.counter.$valid ">Entry number of your team</span>
                             </div>                            
                         </div>
                         <div class="form-group">
