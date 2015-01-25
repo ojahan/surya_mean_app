@@ -2,6 +2,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
+var Promise = require("promise");
 
 var UserSchema = new Schema({
 	fullname: {
@@ -41,23 +42,30 @@ var UserSchema = new Schema({
 
 UserSchema.pre('save', function(next){
 	var user = this;
-	bcrypt.genSalt(10, function(err,salt){
-		if (err) return next(err) ;
-		bcrypt.hash(user.password, salt, function(err,hash){
-			if (err) return next(err);
-			user.password = hash;
-			next();
-		});
+	bcrypt.hash(user.password, 10, function(err,hash){
+		if (err) return next(err);
+		user.password = hash;
+		console.log(hash);
+		next();
 	});
 });
 
 UserSchema.methods.comparePassword = function(password){
-	var match = undefined;
-	bcrypt.compare(this.password, password, function(error, isMatch){
-		if (error) console.log(error);
-		match = isMatch;
+	var user = this;
+	var result = undefined;
+	authPromise = new Promise(function(resolve,reject){
+		bcrypt.compare( password, user.password, function(error, isMatch){
+			if (error) console.log(error);
+			resolve(isMatch);
+		});
 	});
-	return match;
+	authPromise.then(function(data){
+		result = data;
+	},function(error){
+		console.log(error)
+	});	
+	console.log('compare' + result);
+	return result;
 };
 
 UserSchema.methods.validPassword = function(password){

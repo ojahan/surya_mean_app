@@ -7,10 +7,10 @@ var errorHandler = require('errorhandler');
 
 router.get('/create', function(request, respond){	
 	var person = new User({
-		fullname: "admin",
-		username: "admin",
+		fullname: "surya",
+		username: "yama",
 		email: "dre@gmail.com",
-		password: 'test',		
+		password: 'root',		
 		role: 'Admin',
 		phone: 085723002470
 	});

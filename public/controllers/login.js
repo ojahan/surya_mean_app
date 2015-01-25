@@ -5,20 +5,18 @@
 */
 var app = angular.module('authModule', ['ngRoute','ngTouch']);
 
-app.controller('loginController', ['$scope', 'USER_ROLES', 'AuthService', function($scope,USER_ROLES,AuthService){
+app.controller('loginController', ['$scope', '$rootScope', 'USER_ROLES', 'AuthService', function($scope, $rootScope, role, auth){
 	
 	$scope.credential = {username: undefined, password: undefined};
 
-	$scope.currentUser = null;
-	$scope.userRoles = USER_ROLES;
-	$scope.isAuthorized = AuthService.isAuthorized;
-
+	
 	$scope.setCurrentUser = function(user){
 		$scope.currentUser = user;
 	}
 
 	$scope.loginProcess = function(credential){
-		authService.login(credential);
+		var result = auth.login(credential);
+		console.log(result);
 	};	
 }]);
 
@@ -44,7 +42,8 @@ app.factory('AuthService', ['$http','Session', function($http,Session){
 	authService.login = function(credential){
 		return $http.post('/login',credential)
 				.then(function(data, status){
-					Session.create(data);
+					// Session.create(data);
+					console.log(data);
 					return data;
 				})
 				.error(function(data,status){
@@ -66,7 +65,8 @@ app.factory('AuthService', ['$http','Session', function($http,Session){
 	return authService;
 }]);
 
-app.service('Session', ['$scope', function($scope){
+
+app.service('Session',  function(){
 	this.create = function(sessionId, userId, userRole){
 		this.id = sessionId;
 		this.userId = userId;
@@ -77,5 +77,5 @@ app.service('Session', ['$scope', function($scope){
 		this.userId = null;
 		this.userRole = null;	
 	};
-}]);
+});;
 
