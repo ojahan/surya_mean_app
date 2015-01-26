@@ -42,7 +42,7 @@ app.factory('AuthService', ['$http','Session', function($http,Session){
 	authService.login = function(credential){
 		return $http.post('/login',credential)
 				.then(function(data, status){
-					// Session.create(data);
+					Session.create(data._id,data.role);
 					console.log(data);
 					return data;
 				})
@@ -68,12 +68,10 @@ app.factory('AuthService', ['$http','Session', function($http,Session){
 
 app.service('Session',  function(){
 	this.create = function(sessionId, userId, userRole){
-		this.id = sessionId;
 		this.userId = userId;
 		this.userRole = userRole;
 	};
 	this.destroy = function(){
-		this.id = null;
 		this.userId = null;
 		this.userRole = null;	
 	};

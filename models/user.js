@@ -50,7 +50,7 @@ UserSchema.pre('save', function(next){
 	});
 });
 
-UserSchema.methods.comparePassword = function(password){
+UserSchema.methods.comparePassword = function(password,next){
 	var user = this;
 	var result = undefined;
 	authPromise = new Promise(function(resolve,reject){
@@ -60,12 +60,10 @@ UserSchema.methods.comparePassword = function(password){
 		});
 	});
 	authPromise.then(function(data){
-		result = data;
+		next(data);
 	},function(error){
 		console.log(error)
 	});	
-	console.log('compare' + result);
-	return result;
 };
 
 UserSchema.methods.validPassword = function(password){
