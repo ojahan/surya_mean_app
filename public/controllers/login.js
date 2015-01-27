@@ -5,19 +5,17 @@
 */
 var app = angular.module('authModule', ['ngRoute','ngTouch']);
 
-app.controller('loginController', ['$scope', '$rootScope', 'USER_ROLES', 'AuthService', function($scope, $rootScope, role, auth){
+app.controller('loginController', ['$scope', '$rootScope', '$location', 'USER_ROLES', 'AuthService', function($scope, $rootScope, $location, session, auth){
 	
 	$scope.credential = {username: undefined, password: undefined};
-
 	
-	$scope.setCurrentUser = function(user){
-		$scope.currentUser = user;
-	}
-
 	$scope.loginProcess = function(credential){
-		var result = auth.login(credential);
-		console.log(result);
+		var data = auth.login(credential);		
+		console.log(data);
 	};	
+
+
+
 }]);
 
 app.constant('AUTH_EVENT', {
@@ -41,9 +39,9 @@ app.factory('AuthService', ['$http','Session', function($http,Session){
 
 	authService.login = function(credential){
 		return $http.post('/login',credential)
-				.then(function(data, status){
-					Session.create(data._id,data.role);
-					console.log(data);
+				.success(function(data, status){
+					Session.create(data._id, data.user_id, data.role);
+					// console.log(data);
 					return data;
 				})
 				.error(function(data,status){
