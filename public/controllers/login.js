@@ -5,10 +5,9 @@
 */
 var app = angular.module('authModule', ['ngRoute','ngTouch']);
 
-app.controller('loginController', ['$scope', '$rootScope', 'USER_ROLES', 'AuthService', function($scope, $rootScope, role, auth){
+app.controller('loginController', ['$scope', '$rootScope', 'USER_ROLES', 'AuthService', '$location', function($scope, $rootScope, role, auth, $location){
 	
 	$scope.credential = {username: undefined, password: undefined};
-
 	
 	$scope.setCurrentUser = function(user){
 		$scope.currentUser = user;
@@ -16,7 +15,12 @@ app.controller('loginController', ['$scope', '$rootScope', 'USER_ROLES', 'AuthSe
 
 	$scope.loginProcess = function(credential){
 		var result = auth.login(credential);
-		console.log(result);
+		result.then(function(data){
+			console.log(data);
+			if (angular.isObject(data)) {
+				$location.path('dashboard');
+			};
+		});
 	};	
 }]);
 
@@ -36,19 +40,17 @@ app.constant('USER_ROLES', {
 	player :'player'
 });
 
-app.factory('AuthService', ['$http','Session', function($http,Session){
+app.factory('AuthService', ['$http','Session', '$q', function($http,Session,$q){
 	var authService = {};
 
 	authService.login = function(credential){
+		var deffered = $q.defer();
 		return $http.post('/login',credential)
 				.then(function(data, status){
 					Session.create(data._id,data.role);
 					console.log(data);
 					return data;
-				})
-				.error(function(data,status){
-					return 'Login Incorrect';
-				});
+				});				
 	};
 
 	authService.isAuthenticated = function(){
