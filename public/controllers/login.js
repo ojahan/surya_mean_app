@@ -3,7 +3,7 @@
 *
 * Description: Login User
 */
-var app = angular.module('authModule', ['ngRoute','ngTouch']);
+var app = angular.module('authModule', ['ngRoute','ngTouch','myApp']);
 
 app.controller('loginController', ['$scope', '$rootScope', '$location', 'USER_ROLES', 'AuthService', function($scope, $rootScope, $location, session, auth){
 	
@@ -11,7 +11,9 @@ app.controller('loginController', ['$scope', '$rootScope', '$location', 'USER_RO
 	
 	$scope.loginProcess = function(credential){
 		var data = auth.login(credential);		
-		console.log(data);
+		if (angular.isObject(data)) {
+			$location.path("/dashboard");
+		};
 	};	
 
 

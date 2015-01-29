@@ -34,6 +34,9 @@ mongoose.connect(configDB.url, function(error, respond){
     }
 });
 
+app.get('*', function(req, res){
+    res.render('index');
+});
 
 app.use('/', index);
 app.use('/users', users);

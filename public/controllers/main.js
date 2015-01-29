@@ -42,8 +42,9 @@ app.config(['$routeProvider','$locationProvider','$httpProvider',
 				templateUrl: '/partials/setPassword.html'
 			})
 			.otherwise({
-				redirectTo:'/'
+				redirectTo:'/dashboard'
 			});	
+	$locationProvider.html5Mode(true);
 }]);
 
 app.controller('mainController', ['$scope', 'USER_ROLES', function($scope,role){
